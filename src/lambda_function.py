@@ -8,10 +8,10 @@ import io
 
 def lambda_handler(event, context):
     url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv'
-    df = pd.read_csv(url, usecols=['total_vaccinations', 'total_vaccinations_per_hundred'])
-    output = df.tail(1)
-    total_vaxx = output.iat[0,0].astype(int).astype(str)
-    total_perc=output.iat[0,1].astype(str)
+    df = pd.read_csv(url, usecols=['total_vaccinations', 'total_vaccinations_per_hundred', 'location'])
+    output =df.loc[df['location']=="World"].iloc[-1]
+    total_vaxx = output["total_vaccinations"].astype(str)
+    total_perc = output["total_vaccinations_per_hundred"].astype(str)
     tweet = "✅"+ total_vaxx +" vaccinations have been issued, " +total_perc +"% of the planet's population! ✅"
 
     print("Get credentials")
